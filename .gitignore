@@ -117,4 +117,13 @@ outputs/
 logs/
 
 # Gemini API Key
-GEMINI_API_KEY
+apikey.env
+
+# Google API Key / Credentials
+google_api_key.env
+google_credentials.json
+service_account.json
+secrets.json
+api_keys.py
+*_credentials.json
+*_secret.json
