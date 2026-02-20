@@ -16,13 +16,13 @@ It is **not intended for clinical use**.
 - Added **MIT License**  
 - Fixed bugs and updated `requirements.txt`  
 - Added `.gitignore`  
-- Upgraded core LLM to **GPT-5**  
+- Upgraded core LLM to **Gemini 3 Flash** (Google Gemini)  
 
 ---
 
 ## 🚀 How It Works
 
-In the current version, we use **three AI agents (GPT-5)**, each specializing in a different aspect of medical analysis.  
+In the current version, we use **three AI agents (Gemini 3 Flash)**, each specializing in a different aspect of medical analysis.  
 A medical report is passed to all agents, which run **in parallel (threading)** and return their findings.  
 The outputs are then combined and summarized into **three possible health issues** with reasoning.
 
@@ -63,11 +63,12 @@ The outputs are then combined and summarized into **three possible health issues
     pip install -r requirements.txt
     ```
 3. **Set up your API credentials:**
-    - Create a file named apikey.env in the project root.
-    - Add your OpenAI (or other LLM provider) credentials:
+    - Create a file named `apikey.env` in the project root.
+    - Add your Google Gemini API key:
     ```bash
-    OPENAI_API_KEY=your_api_key_here
+    GOOGLE_API_KEY=your_google_api_key_here
     ```
+    - You can obtain a free API key from [Google AI Studio](https://aistudio.google.com/app/apikey).
 4. **Run the system:** `python main.py`
 ---
 
