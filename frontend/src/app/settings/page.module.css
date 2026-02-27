@@ -1,0 +1,124 @@
+/* Settings Page Styles */
+
+.profileCard,
+.dangerCard,
+.aboutCard {
+    max-width: 640px;
+    margin-bottom: var(--space-6);
+    padding: var(--space-8);
+}
+
+.cardTitle {
+    font-size: var(--text-lg);
+    font-weight: 700;
+    margin-bottom: var(--space-5);
+}
+
+.cardDesc {
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-5);
+    line-height: 1.6;
+}
+
+/* Profile */
+.profileInfo {
+    display: flex;
+    gap: var(--space-8);
+    align-items: flex-start;
+}
+
+.avatar {
+    width: 72px;
+    height: 72px;
+    border-radius: var(--radius-full);
+    overflow: hidden;
+    flex-shrink: 0;
+    background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.avatarImg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.avatarFallback {
+    color: white;
+    font-size: var(--text-xl);
+    font-weight: 800;
+}
+
+.profileMeta {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+}
+
+.field {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+}
+
+.fieldLabel {
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--color-text-muted);
+    min-width: 120px;
+}
+
+.fieldValue {
+    font-size: var(--text-sm);
+    font-weight: 500;
+    color: var(--color-text);
+}
+
+.roleBadge {
+    text-transform: capitalize;
+}
+
+/* Danger Zone */
+.dangerActions {
+    display: flex;
+    gap: var(--space-3);
+}
+
+/* About */
+.aboutInfo {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    margin-bottom: var(--space-5);
+}
+
+.aboutLinks {
+    display: flex;
+    gap: var(--space-2);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .profileInfo {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .field {
+        flex-direction: column;
+        gap: var(--space-1);
+    }
+
+    .fieldLabel {
+        min-width: auto;
+    }
+
+    .dangerActions {
+        flex-direction: column;
+    }
+}

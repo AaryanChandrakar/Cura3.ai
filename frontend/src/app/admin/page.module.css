@@ -1,0 +1,443 @@
+/* ============================================================
+   Admin Page — Comprehensive Styles
+   Overview, Users, API Usage, Audit Logs
+   ============================================================ */
+
+/* ── Tabs ────────────────────────────────────────────── */
+.tabs {
+    display: flex;
+    gap: var(--space-1);
+    margin-bottom: var(--space-6);
+    padding: 4px;
+    background: var(--color-bg-alt);
+    border-radius: var(--radius-md);
+    width: fit-content;
+    flex-wrap: wrap;
+}
+
+.tab {
+    padding: var(--space-2) var(--space-5);
+    border-radius: var(--radius-sm);
+    border: none;
+    background: transparent;
+    font-size: var(--text-sm);
+    font-weight: 600;
+    cursor: pointer;
+    color: var(--color-text-secondary);
+    transition: all var(--transition-fast);
+    white-space: nowrap;
+}
+
+.tab:hover {
+    color: var(--color-text);
+    background: rgba(255, 255, 255, 0.5);
+}
+
+.tab.active {
+    background: var(--color-surface);
+    color: var(--color-primary);
+    box-shadow: var(--shadow-sm);
+}
+
+/* ── Overview Grid ───────────────────────────────────── */
+.overviewGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: var(--space-4);
+}
+
+.adminStat {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    padding: var(--space-5) var(--space-6);
+}
+
+.adminStatIcon {
+    font-size: 1.8rem;
+}
+
+.adminStatValue {
+    display: block;
+    font-family: var(--font-heading);
+    font-size: var(--text-2xl);
+    font-weight: 800;
+    color: var(--color-text);
+}
+
+.adminStatLabel {
+    display: block;
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+    font-weight: 500;
+}
+
+/* ── Search Bar ──────────────────────────────────────── */
+.searchBar {
+    max-width: 400px;
+    margin-bottom: var(--space-5);
+}
+
+/* ── Users Table ─────────────────────────────────────── */
+.usersTable {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+}
+
+.tableHeader {
+    display: grid;
+    grid-template-columns: 2fr 2fr 1fr 1fr;
+    padding: var(--space-3) var(--space-5);
+    background: var(--color-bg-alt);
+    font-size: var(--text-xs);
+    font-weight: 700;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.tableRow {
+    display: grid;
+    grid-template-columns: 2fr 2fr 1fr 1fr;
+    padding: var(--space-3) var(--space-5);
+    border-top: 1px solid var(--color-border-light);
+    align-items: center;
+    font-size: var(--text-sm);
+    transition: background var(--transition-fast);
+}
+
+.tableRow:hover {
+    background: var(--color-surface-hover);
+}
+
+.userName {
+    font-weight: 600;
+    color: var(--color-text);
+}
+
+.userEmail {
+    color: var(--color-text-secondary);
+}
+
+.userDate {
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+}
+
+.roleSelect {
+    padding: var(--space-1) var(--space-3);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    background: var(--color-surface);
+    cursor: pointer;
+}
+
+/* ── Filter Row ──────────────────────────────────────── */
+.filterRow {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    margin-bottom: var(--space-5);
+    flex-wrap: wrap;
+}
+
+.filterLabel {
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--color-text-secondary);
+}
+
+.filterChip {
+    padding: var(--space-1) var(--space-3);
+    border-radius: var(--radius-full);
+    border: 2px solid var(--color-border);
+    background: var(--color-surface);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    color: var(--color-text-secondary);
+}
+
+.filterChip:hover {
+    border-color: var(--color-primary-light);
+    color: var(--color-primary);
+}
+
+.filterChipActive {
+    background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+    color: var(--color-text-inverse);
+    border-color: var(--color-primary);
+}
+
+.filterSelect {
+    max-width: 160px;
+    padding: var(--space-2) var(--space-3) !important;
+    font-size: var(--text-sm) !important;
+}
+
+.filterInput {
+    max-width: 250px;
+    padding: var(--space-2) var(--space-3) !important;
+    font-size: var(--text-sm) !important;
+}
+
+/* ── API Usage (Summary Card) ────────────────────────── */
+.usageSummary {
+    display: flex;
+    gap: var(--space-8);
+    padding: var(--space-6) var(--space-8);
+    margin-bottom: var(--space-5);
+    background: linear-gradient(135deg, rgba(10, 110, 189, 0.04), rgba(18, 184, 134, 0.04));
+    border: 1px solid rgba(10, 110, 189, 0.12);
+}
+
+.usageSummaryItem {
+    display: flex;
+    flex-direction: column;
+}
+
+.usageSummaryValue {
+    font-family: var(--font-heading);
+    font-size: var(--text-2xl);
+    font-weight: 800;
+    color: var(--color-text);
+}
+
+.usageSummaryLabel {
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+    font-weight: 500;
+    margin-top: var(--space-1);
+}
+
+/* ── Chart Card ──────────────────────────────────────── */
+.chartCard {
+    margin-bottom: var(--space-5);
+    overflow: hidden;
+}
+
+.chartTitle {
+    font-size: var(--text-base);
+    font-weight: 700;
+    margin-bottom: var(--space-4);
+    color: var(--color-text);
+}
+
+.chartEmpty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-10);
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+}
+
+/* ── Endpoints Table ─────────────────────────────────── */
+.endpointsCard {
+    margin-bottom: var(--space-5);
+}
+
+.endpointTable {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+}
+
+.endpointHeader {
+    display: grid;
+    grid-template-columns: 3fr 1fr 1fr 1fr 1fr;
+    padding: var(--space-3) var(--space-4);
+    background: var(--color-bg-alt);
+    font-size: var(--text-xs);
+    font-weight: 700;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.endpointRow {
+    display: grid;
+    grid-template-columns: 3fr 1fr 1fr 1fr 1fr;
+    padding: var(--space-3) var(--space-4);
+    border-top: 1px solid var(--color-border-light);
+    font-size: var(--text-sm);
+    align-items: center;
+    transition: background var(--transition-fast);
+}
+
+.endpointRow:hover {
+    background: var(--color-surface-hover);
+}
+
+.endpointName {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+}
+
+.endpointName code {
+    font-size: var(--text-xs);
+    color: var(--color-text-secondary);
+    word-break: break-all;
+}
+
+.endpointCount {
+    font-weight: 700;
+    font-family: var(--font-heading);
+    color: var(--color-primary);
+}
+
+/* ── Method & Status Badges ──────────────────────────── */
+.methodBadge {
+    display: inline-flex;
+    padding: 2px 8px;
+    border-radius: var(--radius-full);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    flex-shrink: 0;
+}
+
+.statusBadge {
+    display: inline-flex;
+    padding: 2px 8px;
+    border-radius: var(--radius-full);
+    font-size: 11px;
+    font-weight: 700;
+    font-family: var(--font-heading);
+}
+
+/* ── Audit Log Table ─────────────────────────────────── */
+.auditCount {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    margin-left: auto;
+}
+
+.auditTable {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+}
+
+.auditHeader {
+    display: grid;
+    grid-template-columns: 2fr 0.8fr 3fr 0.8fr 1fr 1.5fr;
+    padding: var(--space-3) var(--space-4);
+    background: var(--color-bg-alt);
+    font-size: var(--text-xs);
+    font-weight: 700;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.auditRow {
+    display: grid;
+    grid-template-columns: 2fr 0.8fr 3fr 0.8fr 1fr 1.5fr;
+    padding: var(--space-2) var(--space-4);
+    border-top: 1px solid var(--color-border-light);
+    font-size: var(--text-xs);
+    align-items: center;
+    transition: background var(--transition-fast);
+}
+
+.auditRow:hover {
+    background: var(--color-surface-hover);
+}
+
+.auditTime {
+    font-family: var(--font-heading);
+    color: var(--color-text-secondary);
+    font-size: 11px;
+}
+
+.auditPath {
+    color: var(--color-text-secondary);
+    word-break: break-all;
+    font-family: 'Courier New', monospace;
+    font-size: 11px;
+}
+
+.auditDuration {
+    font-family: var(--font-heading);
+    font-weight: 600;
+    color: var(--color-text);
+}
+
+.auditIp {
+    color: var(--color-text-muted);
+    font-family: 'Courier New', monospace;
+    font-size: 11px;
+}
+
+/* ── Pagination ──────────────────────────────────────── */
+.pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-4);
+    margin-top: var(--space-5);
+    padding: var(--space-3);
+}
+
+.paginationInfo {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    font-weight: 500;
+}
+
+/* ── Responsive ──────────────────────────────────────── */
+@media (max-width: 768px) {
+
+    .tableHeader,
+    .tableRow {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .tableHeader span:nth-child(3),
+    .tableHeader span:nth-child(4),
+    .tableRow span:nth-child(3),
+    .tableRow span:nth-child(4) {
+        display: none;
+    }
+
+    .endpointHeader,
+    .endpointRow {
+        grid-template-columns: 2fr 1fr 1fr;
+    }
+
+    .endpointHeader span:nth-child(4),
+    .endpointHeader span:nth-child(5),
+    .endpointRow span:nth-child(4),
+    .endpointRow span:nth-child(5) {
+        display: none;
+    }
+
+    .auditHeader,
+    .auditRow {
+        grid-template-columns: 1.5fr 0.8fr 2fr 0.8fr;
+    }
+
+    .auditHeader span:nth-child(5),
+    .auditHeader span:nth-child(6),
+    .auditRow span:nth-child(5),
+    .auditRow span:nth-child(6) {
+        display: none;
+    }
+
+    .usageSummary {
+        flex-direction: column;
+        gap: var(--space-4);
+    }
+
+    .filterRow {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}

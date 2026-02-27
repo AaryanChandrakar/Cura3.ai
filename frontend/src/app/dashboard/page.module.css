@@ -1,0 +1,195 @@
+/* Dashboard Page Styles */
+
+.welcome {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: var(--space-8);
+}
+
+/* Stats Grid */
+.statsGrid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-5);
+    margin-bottom: var(--space-10);
+}
+
+.statCard {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    padding: var(--space-5) var(--space-6);
+    background: var(--color-surface);
+    border-radius: var(--radius-lg);
+    transition: all var(--transition-base);
+}
+
+.statCard:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.statIcon {
+    font-size: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 52px;
+    height: 52px;
+    border-radius: var(--radius-md);
+    background: var(--color-accent);
+}
+
+.statInfo {
+    display: flex;
+    flex-direction: column;
+}
+
+.statNum {
+    font-family: var(--font-heading);
+    font-size: var(--text-2xl);
+    font-weight: 800;
+    color: var(--color-text);
+}
+
+.statLabel {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    font-weight: 500;
+}
+
+/* Recent Section */
+.recentSection {
+    margin-bottom: var(--space-10);
+}
+
+.sectionTop {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-5);
+}
+
+.sectionTitle {
+    font-size: var(--text-xl);
+    font-weight: 700;
+}
+
+/* Diagnosis List */
+.diagnosisList {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+}
+
+.diagnosisCard {
+    cursor: pointer;
+    padding: var(--space-5) var(--space-6);
+}
+
+.diagnosisTop {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-3);
+}
+
+.diagnosisName {
+    font-weight: 600;
+    font-size: var(--text-base);
+}
+
+.diagnosisSpecialists {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin-bottom: var(--space-3);
+}
+
+.diagnosisDate {
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+}
+
+/* Skeleton Cards */
+.loadingCards {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+}
+
+.skeletonCard {
+    padding: var(--space-5) var(--space-6);
+}
+
+/* Specialist Bars */
+.specialistBars {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    padding: var(--space-5);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+}
+
+.specialistBar {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+}
+
+.specialistName {
+    width: 140px;
+    font-size: var(--text-sm);
+    font-weight: 500;
+    flex-shrink: 0;
+}
+
+.barTrack {
+    flex: 1;
+    height: 8px;
+    background: var(--color-bg-alt);
+    border-radius: var(--radius-full);
+    overflow: hidden;
+}
+
+.barFill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
+    border-radius: var(--radius-full);
+    transition: width 0.6s ease;
+}
+
+.barCount {
+    font-size: var(--text-sm);
+    font-weight: 700;
+    color: var(--color-text-secondary);
+    min-width: 28px;
+    text-align: right;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .statsGrid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .welcome {
+        flex-direction: column;
+        gap: var(--space-4);
+    }
+
+    .statsGrid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .statsGrid {
+        grid-template-columns: 1fr;
+    }
+}

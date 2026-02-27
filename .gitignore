@@ -6,9 +6,10 @@ __pycache__/
 # C extensions
 *.so
 
-# Environment files
+# Environment files (secrets)
 .env
 .env.*
+!.env.example
 
 # Distribution / packaging
 .Python
@@ -92,9 +93,14 @@ cython_debug/
 .DS_Store
 Thumbs.db
 
-# Environment variables
+# IDE / Agent tooling
+.agent/
+.gemini/
+
+# Environment variables (redundant safety net)
 .env
 .env.*
+!.env.example
 
 # Model weights / checkpoints (large files)
 *.ckpt
@@ -116,7 +122,7 @@ results/
 outputs/
 logs/
 
-# Gemini API Key
+# API Key files
 apikey.env
 
 # Google API Key / Credentials
@@ -127,3 +133,12 @@ secrets.json
 api_keys.py
 *_credentials.json
 *_secret.json
+
+# Next.js / Frontend
+frontend/.next/
+frontend/out/
+frontend/node_modules/
+node_modules/
+.env.local
+.next/
+.vercel

@@ -1,5 +1,5 @@
 from langchain_core.prompts import PromptTemplate
-from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_openai import ChatOpenAI
 
 class Agent:
     def __init__(self, medical_report=None, role=None, extra_info=None):
@@ -9,21 +9,95 @@ class Agent:
         # Initialize the prompt based on role and other info
         self.prompt_template = self.create_prompt_template()
         # Initialize the model
-        self.model = ChatGoogleGenerativeAI(temperature=0, model="gemini-3-flash-preview")
+        self.model = ChatOpenAI(temperature=0, model="gpt-4.1")
 
     def create_prompt_template(self):
         if self.role == "MultidisciplinaryTeam":
             # Escape curly braces in reports to prevent LangChain PromptTemplate
-            # from misinterpreting them as template variables (e.g., Gemini may
+            # from misinterpreting them as template variables (e.g., the LLM may
             # return JSON-like text containing { } which causes a KeyError).
             cardiologist_report = str(self.extra_info.get('cardiologist_report', '')).replace('{', '{{').replace('}', '}}')
             psychologist_report  = str(self.extra_info.get('psychologist_report', '')).replace('{', '{{').replace('}', '}}')
             pulmonologist_report = str(self.extra_info.get('pulmonologist_report', '')).replace('{', '{{').replace('}', '}}')
             templates = f"""
-                Act like a multidisciplinary team of healthcare professionals.
-                You will receive a medical report of a patient visited by a Cardiologist, Psychologist, and Pulmonologist.
-                Task: Review the patient's medical report from the Cardiologist, Psychologist, and Pulmonologist, analyze them and come up with a list of 3 possible health issues of the patient.
-                Just return a list of bullet points of 3 possible health issues of the patient and for each issue provide the reason.
+                Act as a multidisciplinary team of healthcare professionals.
+                You will receive specialist reports from a Cardiologist, Psychologist, and Pulmonologist
+                who each independently analyzed the same patient's medical report.
+
+                YOUR TASK:
+                Analyze all three specialist reports and produce a comprehensive final diagnosis report.
+                Identify the TOP 3 most likely health issues for this patient.
+
+                IMPORTANT FORMATTING RULES - you MUST follow this exact structure:
+                - Use ONLY plain ASCII text. Do NOT use any special characters, unicode, or emojis.
+                - Do NOT use asterisks (*), bullet points, or markdown formatting.
+                - Use simple dashes (-) for any lists.
+                - Use the EXACT structure shown below.
+
+                OUTPUT FORMAT (follow this exactly):
+
+                ============================================================
+                          FINAL DIAGNOSIS REPORT
+                ============================================================
+
+                PATIENT OVERVIEW:
+                [Brief 2-3 sentence summary of the patient's presenting complaints
+                and key findings across all three specialist evaluations.]
+
+                ------------------------------------------------------------
+                IDENTIFIED HEALTH ISSUES
+                ------------------------------------------------------------
+
+                ISSUE 1: [Name of the condition]
+                Severity: [Low / Moderate / High / Critical]
+                Identified By: [Which specialist(s) flagged this]
+
+                Reasoning:
+                [Clear explanation of why this is suspected, referencing specific
+                findings from the specialist reports. 3-4 sentences.]
+
+                Recommended Next Steps:
+                - [Action item 1]
+                - [Action item 2]
+                - [Action item 3]
+
+                ISSUE 2: [Name of the condition]
+                Severity: [Low / Moderate / High / Critical]
+                Identified By: [Which specialist(s) flagged this]
+
+                Reasoning:
+                [Clear explanation. 3-4 sentences.]
+
+                Recommended Next Steps:
+                - [Action item 1]
+                - [Action item 2]
+                - [Action item 3]
+
+                ISSUE 3: [Name of the condition]
+                Severity: [Low / Moderate / High / Critical]
+                Identified By: [Which specialist(s) flagged this]
+
+                Reasoning:
+                [Clear explanation. 3-4 sentences.]
+
+                Recommended Next Steps:
+                - [Action item 1]
+                - [Action item 2]
+                - [Action item 3]
+
+                ------------------------------------------------------------
+                PRIORITY RECOMMENDATION
+                ------------------------------------------------------------
+                [1-2 sentences on which issue should be addressed first and why.]
+
+                ------------------------------------------------------------
+                NOTE: This report is generated by AI for research and educational
+                purposes only. It is NOT a substitute for professional medical
+                advice, diagnosis, or treatment. Always consult a qualified
+                healthcare provider for medical decisions.
+                ------------------------------------------------------------
+
+                === SPECIALIST REPORTS REVIEWED ===
 
                 Cardiologist Report: {cardiologist_report}
                 Psychologist Report: {psychologist_report}
@@ -64,7 +138,7 @@ class Agent:
         prompt = self.prompt_template.format(medical_report=self.medical_report)
         try:
             response = self.model.invoke(prompt)
-            # Gemini can return content as a list of content block dicts e.g.
+            # LLM can return content as a list of content block dicts e.g.
             # [{'type': 'text', 'text': 'actual response...'}]
             # Extract just the "text" field to get clean, readable output.
             content = response.content

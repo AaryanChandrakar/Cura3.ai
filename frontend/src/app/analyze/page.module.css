@@ -1,0 +1,269 @@
+/* Analyze Page Styles */
+
+.uploadCard {
+    padding: var(--space-8);
+    max-width: 720px;
+}
+
+/* Mode Toggle */
+.modeToggle {
+    display: flex;
+    gap: var(--space-2);
+    margin-bottom: var(--space-6);
+    padding: 4px;
+    background: var(--color-bg-alt);
+    border-radius: var(--radius-md);
+}
+
+.modeBtn {
+    flex: 1;
+    padding: var(--space-3);
+    border-radius: var(--radius-sm);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--color-text-secondary);
+    transition: all var(--transition-fast);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.modeBtn.active {
+    background: var(--color-surface);
+    color: var(--color-primary);
+    box-shadow: var(--shadow-sm);
+}
+
+/* Drop Zone */
+.dropZone {
+    border: 2px dashed var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-10);
+    text-align: center;
+    cursor: pointer;
+    transition: all var(--transition-base);
+    margin-bottom: var(--space-6);
+    background: var(--color-surface-hover);
+}
+
+.dropZone:hover {
+    border-color: var(--color-primary-light);
+    background: var(--color-primary-bg);
+}
+
+.dropContent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-3);
+}
+
+.dropIcon {
+    font-size: 2.5rem;
+    opacity: 0.7;
+}
+
+.dropTitle {
+    font-size: var(--text-base);
+    font-weight: 600;
+    color: var(--color-text);
+}
+
+.dropHint {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+}
+
+/* File Info */
+.fileInfo {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    justify-content: center;
+}
+
+.fileIcon {
+    font-size: 1.5rem;
+}
+
+.fileName {
+    font-weight: 600;
+    color: var(--color-primary);
+}
+
+.fileSize {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+}
+
+/* Form */
+.formRow {
+    display: flex;
+    align-items: flex-end;
+    gap: var(--space-6);
+    margin-bottom: var(--space-4);
+}
+
+.checkbox {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    white-space: nowrap;
+    padding-bottom: 10px;
+}
+
+.checkbox input {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--color-primary);
+}
+
+/* Specialist Card */
+.specialistCard {
+    padding: var(--space-8);
+    max-width: 720px;
+}
+
+.stepTitle {
+    font-size: var(--text-xl);
+    font-weight: 700;
+    margin-bottom: var(--space-2);
+}
+
+.stepDesc {
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-6);
+}
+
+.chipGrid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-bottom: var(--space-6);
+}
+
+.selectedCount {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-5);
+}
+
+.actionRow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* Running Card */
+.runningCard {
+    padding: var(--space-12);
+    max-width: 600px;
+    text-align: center;
+}
+
+.runningContent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-5);
+}
+
+.runningIcon {
+    margin-bottom: var(--space-4);
+}
+
+.runningTitle {
+    font-size: var(--text-2xl);
+    font-weight: 800;
+}
+
+.runningMessage {
+    color: var(--color-text-secondary);
+    font-size: var(--text-base);
+}
+
+.progressBar {
+    width: 100%;
+    max-width: 400px;
+    height: 8px;
+    background: var(--color-bg-alt);
+    border-radius: var(--radius-full);
+    overflow: hidden;
+}
+
+.progressFill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
+    border-radius: var(--radius-full);
+    transition: width 0.5s ease;
+}
+
+.progressPercent {
+    font-family: var(--font-heading);
+    font-size: var(--text-xl);
+    font-weight: 700;
+    color: var(--color-primary);
+}
+
+.runningSpecialists {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    justify-content: center;
+    margin-top: var(--space-4);
+}
+
+/* Done Card */
+.doneCard {
+    padding: var(--space-12);
+    max-width: 600px;
+    text-align: center;
+}
+
+.doneContent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-4);
+}
+
+.doneIcon {
+    font-size: 3rem;
+}
+
+.doneTitle {
+    font-size: var(--text-2xl);
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.doneMessage {
+    color: var(--color-text-secondary);
+}
+
+.doneActions {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    margin-top: var(--space-4);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .formRow {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .actionRow {
+        flex-direction: column;
+        gap: var(--space-3);
+    }
+}

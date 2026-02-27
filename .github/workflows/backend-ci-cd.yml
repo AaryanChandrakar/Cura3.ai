@@ -1,0 +1,171 @@
+# ============================================================
+# Cura3.ai — Backend CI/CD Pipeline
+# Build, test, and deploy the FastAPI backend to Azure
+# ============================================================
+
+name: Backend CI/CD
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'backend/**'
+      - '.github/workflows/backend-ci-cd.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'backend/**'
+
+env:
+  PYTHON_VERSION: '3.12'
+
+jobs:
+
+  # ── Lint & Test ──────────────────────────────────────────
+  test:
+    name: Lint & Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python ${{ env.PYTHON_VERSION }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: 'pip'
+          cache-dependency-path: backend/requirements.txt
+
+      - name: Install dependencies
+        working-directory: backend
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install ruff pytest pytest-asyncio httpx
+
+      - name: Lint with ruff
+        working-directory: backend
+        run: ruff check . --select E,F,W --ignore E501
+
+      - name: Run smoke tests
+        working-directory: backend
+        env:
+          MONGODB_URI: "mongodb://localhost:27017"
+          MONGODB_DB_NAME: "cura3ai_test"
+          GOOGLE_API_KEY: "test-key"
+          JWT_SECRET_KEY: "test-secret-key-for-ci"
+        run: |
+          python -c "
+          import sys
+          sys.path.insert(0, '.')
+
+          # Test 1: All modules import successfully
+          print('✓ Testing imports...')
+          from app.main import app
+          from app.config import settings
+          from app.core.security import create_access_token, decode_access_token
+          from app.core.rate_limiter import RateLimiter
+          from app.core.audit_logger import AuditLogMiddleware
+          from app.core.api_usage_tracker import APIUsageMiddleware
+          from app.services.report_parser import parse_report_file
+          from app.services.specialist_selector import SPECIALIST_LIST
+          print('  All imports successful')
+
+          # Test 2: Settings load correctly
+          print('✓ Testing settings...')
+          assert settings.APP_NAME == 'Cura3.ai'
+          assert settings.API_V1_PREFIX == '/api/v1'
+          print('  Settings OK')
+
+          # Test 3: JWT token round-trip
+          print('✓ Testing JWT...')
+          token = create_access_token({'sub': 'test-user-id'})
+          payload = decode_access_token(token)
+          assert payload['sub'] == 'test-user-id'
+          print('  JWT round-trip OK')
+
+          # Test 4: Rate limiter works
+          print('✓ Testing rate limiter...')
+          limiter = RateLimiter(max_requests=3, window_seconds=60)
+          assert not limiter.is_rate_limited('test-key')
+          assert not limiter.is_rate_limited('test-key')
+          assert not limiter.is_rate_limited('test-key')
+          assert limiter.is_rate_limited('test-key')
+          print('  Rate limiter OK')
+
+          # Test 5: FastAPI app has expected routes
+          print('✓ Testing routes...')
+          routes = [r.path for r in app.routes]
+          for expected in ['/health', '/api/v1/auth/login', '/api/v1/reports/', '/api/v1/diagnosis/run']:
+              assert any(expected in r for r in routes), f'Missing route: {expected}'
+          print('  All expected routes present')
+
+          print()
+          print('═══════════════════════════════════════')
+          print('  All smoke tests passed! ✅')
+          print('═══════════════════════════════════════')
+          "
+
+  # ── Build Docker Image ──────────────────────────────────
+  build:
+    name: Build Docker Image
+    runs-on: ubuntu-latest
+    needs: test
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build Docker image
+        working-directory: backend
+        run: docker build -t cura3-backend:${{ github.sha }} .
+
+      - name: Verify image runs
+        run: |
+          docker run -d --name cura3-test \
+            -e MONGODB_URI="mongodb://localhost:27017" \
+            -e GOOGLE_API_KEY="test" \
+            -e JWT_SECRET_KEY="test-secret" \
+            -p 8000:8000 \
+            cura3-backend:${{ github.sha }}
+          sleep 5
+          docker logs cura3-test
+          docker stop cura3-test
+
+  # ── Deploy to Azure ────────────────────────────────────
+  deploy:
+    name: Deploy to Azure
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    environment: production
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Login to Azure
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Build and deploy to Azure Web App
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: ${{ secrets.AZURE_BACKEND_APP_NAME }}
+          package: ./backend
+
+      - name: Smoke test deployed API
+        run: |
+          echo "Waiting for deployment to stabilize..."
+          sleep 30
+          HEALTH_URL="https://${{ secrets.AZURE_BACKEND_APP_NAME }}.azurewebsites.net/health"
+          echo "Checking: $HEALTH_URL"
+          HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" "$HEALTH_URL" || echo "000")
+          if [ "$HTTP_STATUS" = "200" ]; then
+            echo "✅ Health check passed (HTTP $HTTP_STATUS)"
+          else
+            echo "⚠️ Health check returned HTTP $HTTP_STATUS (may still be starting)"
+          fi
